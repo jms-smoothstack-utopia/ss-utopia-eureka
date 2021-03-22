@@ -78,7 +78,7 @@
           <commitIdGenerationMode>full</commitIdGenerationMode>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
