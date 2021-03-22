@@ -17,7 +17,7 @@
   <properties>
     <java.version>11</java.version>
     <spring-cloud.version>2020.0.1</spring-cloud.version>
-    <docker.image.prefix>ss-utopia</docker.image.prefix>
+    <docker.image.prefix>${git.branch}/ss-utopia</docker.image.prefix>
     <docker.image.name>eureka-server</docker.image.name>
   </properties>
   <dependencies>
@@ -51,6 +51,34 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
+      <!-- Git Commit/Branch access at build time-->
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>4.0.1</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <useNativeGit>true</useNativeGit>
+          <injectAllReactorProjects>true</injectAllReactorProjects>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+          </generateGitPropertiesFilename>
+          <includeOnlyProperties>
+            <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+            <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+          </includeOnlyProperties>
+          <commitIdGenerationMode>full</commitIdGenerationMode>
+        </configuration>
+      </plugin>
+      
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
